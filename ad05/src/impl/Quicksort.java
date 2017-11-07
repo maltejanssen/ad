@@ -15,8 +15,8 @@ public class Quicksort {
 		_pivotSucher = p;
 	}
 
-	public Class<? extends pivotSucher> whichPivotSucher() {
-		return _pivotSucher.getClass();
+	public pivotSucher whichPivotSucher() {
+		return _pivotSucher;
 	}
 
 	// public Element[] fillArray(int size) {
