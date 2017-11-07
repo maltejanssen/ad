@@ -1,3 +1,11 @@
+package aufgabenblatt04;
+
+/**
+ * Das Pascalsche Dreieck rekursiv
+ *
+ * @author Nils Egge
+ * @version 1.0
+ */
 public class PascalschesDreieckRekursiv {
 	static long count = 0; // Aufwandsanalyse Counter
 
@@ -12,9 +20,9 @@ public class PascalschesDreieckRekursiv {
 		for (int k = 0; k < N; k++) {
 			count++;
 			pascal[k] = pascalRekursiv(N - 1, k);
-			System.out.print(pascal[k] + " ");
+//			System.out.print(pascal[k] + " ");
 		}
-		System.out.println("Count:\t" + count);
+		System.out.println("Count: " + count);
 		count = 0;
 		return pascal;
 	}
@@ -45,11 +53,9 @@ public class PascalschesDreieckRekursiv {
 //		}
 		
 		System.out.println("PascalschesDreieckRekursiv");
-		for (int i = 0; i <= 10; i++) {
-			int exp = i;
-//			System.out.print("N =\t" + exp + "\t");
-			System.out.print("N =" +i + "\t");
-			getLinePascals(exp);
+		for (int N = 1; N <= 100000; N*=10) {
+			System.out.println("\nZeile: " + N);
+			getLinePascals(N);
 		}
 	}
 }
