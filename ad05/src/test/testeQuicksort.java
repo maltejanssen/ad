@@ -21,9 +21,9 @@ public class testeQuicksort {
 		Element[] sortedArray4 = QS.doQuicksort();
 		assertArrayEquals(preSortedArray4, sortedArray4);
 		
-//		QS = new Quicksort(unsortedArray6, pivotSucher.LAST_ELEMENT);
-//		Element[] sortedArray6 = QS.doQuicksort();
-//		assertArrayEquals(preSortedArray6, sortedArray6);
+		QS = new Quicksort(unsortedArray6, pivotSucher.LAST_ELEMENT);
+		Element[] sortedArray6 = QS.doQuicksort();
+		assertArrayEquals(preSortedArray6, sortedArray6);
 		
 	}
 	
@@ -44,9 +44,9 @@ public class testeQuicksort {
 		Element[] sortedArray4 = QS.doQuicksort();
 		assertArrayEquals(preSortedArray4, sortedArray4);
 		
-//		QS = new Quicksort(unsortedArray6, pivotSucher.MEDIAN);
-//		Element[] sortedArray6 = QS.doQuicksort();
-//		assertArrayEquals(preSortedArray6, sortedArray6);
+		QS = new Quicksort(unsortedArray6, pivotSucher.MEDIAN);
+		Element[] sortedArray6 = QS.doQuicksort();
+		assertArrayEquals(preSortedArray6, sortedArray6);
 	}
 
 }

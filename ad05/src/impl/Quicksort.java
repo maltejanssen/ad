@@ -1,79 +1,82 @@
 package impl;
+
 import java.util.concurrent.ThreadLocalRandom;
+
+import impl.Quicksort.pivotSucher;
 
 public class Quicksort {
 
-	public enum pivotSucher {
-		LAST_ELEMENT, RANDOM, MEDIAN
+	public static void main(String[] args)
+	{
+		for(int i = 1; i <= 10000; i*=10)
+		{
+			Element[] array = fillArray(i);
+			Quicksort QS;
+			QS = new Quicksort(array, pivotSucher.LAST_ELEMENT);
+			
+		}
+		
+		
+		
 	}
 	
+	public enum pivotSucher {
+		LAST_ELEMENT, RANDOM, MEDIAN,
+	}
+
 	Element[] _array;
 	pivotSucher _pivotSucher;
+	private int _counterOperations;
+	private int _counterCompares;
 
 	public Quicksort(Element[] array, pivotSucher p) {
 		_array = array;
 		_pivotSucher = p;
+		_counterOperations = 0;
+		_counterCompares = 0;
 	}
 
 	public pivotSucher whichPivotSucher() {
 		return _pivotSucher;
 	}
 
-	// public Element[] fillArray(int size) {
-	// Element[] array = new Element[size];
-	// for (int i = 0; i <= size; i++) {
-	// array[i] = new Element((int) (100 * Math.random()));
-	// }
-	// return array;
-	// }
+	public static Element[] fillArray(int size) {
+		Element[] array = new Element[size];
+		for (int i = 0; i <= size; i++) {
+			array[i] = new Element((int) (size * Math.random()));
+		}
+		return array;
+	}
 
-	// public Element[] quicksort(pivotSucher pivotSucher) {
-	//
-	// int p = pivotSucher.getPivotElement(array);
-	// int i = 0;
-	// int j = array.length - 1;
-	//
-	// while (i <= j) {
-	// while (array[i].getKey() < array[p].getKey()) {
-	// i++;
-	// }
-	// while (array[j].getKey() >= array[p].getKey()) {
-	// if (j == 0)
-	// break;
-	// j--;
-	// }
-	// if (i >= j)
-	// break;
-	// exchange(array, i, j);
-	// i++;
-	// j--;
-	// }
-	// exchange(array, i, p);
-	// return array;
-	//
-	// }
 	public Element[] doQuicksort() {
-		doQuicksortInterna(0, _array.length-1);
+		doQuicksortInterna(0, _array.length - 1);
 		return _array;
 	}
 
 	private void doQuicksortInterna(int ilinks, int irechts) {
-		int pivot, i, j;
-		
+		int pivot, i, j, pivotIdx;
+
 		if (irechts > ilinks) {
 			i = ilinks;
-			j = irechts - 1;
+			j = irechts;
 			pivot = _array[getPivotElement(ilinks, irechts)].getKey();
+			pivotIdx = getPivotElement(ilinks, irechts);
 			while (true) {
 				while (_array[i].getKey() < pivot)
 					i++;
-				while (_array[j].getKey() > pivot && (getPivotElement(ilinks, irechts) != irechts))
+				while (_array[j].getKey() >= pivot) {
 					j--;// Vorsicht: Stop-Element einbauen
+					if (j <= ilinks)
+						break;
+				}
 				if (i >= j)
 					break;// in der Mitte getroffen
 				exchange(i, j);// vertauschen
 			}
-			exchange(i, irechts);// Pivotelement in die Mitte tauschen
+
+			if (!(pivotIdx < i))
+				exchange(i, pivotIdx);// Pivotelement in die Mitte tauschen
+
 			doQuicksortInterna(ilinks, i - 1);
 			doQuicksortInterna(i + 1, irechts);
 		}
@@ -83,10 +86,11 @@ public class Quicksort {
 		Element temp = _array[idx1];
 		_array[idx1] = _array[idx2];
 		_array[idx2] = temp;
+		_counterOperations++;
 	}
 
 	private int getPivotElement(int ilinks, int irechts) {
-		
+
 		switch (_pivotSucher) {
 
 		case LAST_ELEMENT:
@@ -105,7 +109,8 @@ public class Quicksort {
 	}
 
 	private int getPivotRandom(int ilinks, int irechts) {
-		return ThreadLocalRandom.current().nextInt(ilinks, irechts + 1);
+		int random = ThreadLocalRandom.current().nextInt(ilinks, irechts + 1);
+		return random;
 	}
 
 	private int getPivotMedian(int ilinks, int irechts) {
@@ -134,5 +139,17 @@ public class Quicksort {
 		}
 	}
 
+	public int get_counterC() {
+		return _counterCompares;
+	}
+	
+	public int get_counterO() {
+		return _counterOperations;
+	}
+
+	public void reset_counter() {
+		this._counterOperations = 0;
+		this._counterCompares = 0;
+	}
 
 }
