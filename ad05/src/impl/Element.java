@@ -12,6 +12,10 @@ public class Element {
 	public int getKey() {
 		return key;
 	}
+	
+	public void setKey(int key) {
+		this.key = key;
+	}
 
 	@Override
 	public boolean equals(Object obj)

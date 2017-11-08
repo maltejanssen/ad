@@ -8,16 +8,62 @@ public class Quicksort {
 
 	public static void main(String[] args)
 	{
-		for(int i = 1; i <= 10000; i*=10)
-		{
-			Element[] array = fillArray(i);
+//		Element array[] = {new Element(1),new Element(2), new Element(3),new Element(4), new Element(5),
+//		Quicksort QS;
+//		QS = new Quicksort(array, pivotSucher.LAST_ELEMENT);
+		
+//		for(int i = 1; i <= 10000; i*=10){
+//			Element[] array = fillArraySorted(i);
+//			Quicksort QS;
+//			QS = new Quicksort(array, pivotSucher.LAST_ELEMENT);
+//			QS.doQuicksort();
+//			System.out.println(i);
+//			System.out.println("counterCompares" + QS.get_counterC());
+//			System.out.println("counterSwitches" + QS.get_counterS());
+//			QS.reset_counter();
+//		}
+		Aufwand();
+
+		
+		
+		
+	}
+	
+	public static void Aufwand() {
+		System.out.println("Sorted Pivot = Last");
+		for(int i = 1; i <= 10000; i*=10){
+			Element[] array = fillArraySorted(i);
 			Quicksort QS;
 			QS = new Quicksort(array, pivotSucher.LAST_ELEMENT);
-			
+			Element[] element = QS.doQuicksort();
+			System.out.println(i);
+			System.out.println("counterCompares" + QS.get_counterC());
+			System.out.println("counterSwitches" + QS.get_counterS());
+			QS.reset_counter();
+//			if (i==100) {
+//				for(int s = 0; s<= 99;s++) {
+//					System.out.println(element[s].getKey());
+//				}
+//			}
 		}
 		
-		
-		
+		System.out.println("Unsorted Pivot = Last");
+		for(int i = 1; i <= 10000; i*=10){
+			Element[] array = fillArrayUnsorted(i);
+			Quicksort QS;
+			array[i-1].setKey(i/2);
+			QS = new Quicksort(array, pivotSucher.LAST_ELEMENT);
+			Element[] element = QS.doQuicksort();
+			System.out.println(i);
+			System.out.println("counterCompares" + QS.get_counterC());
+			System.out.println("counterSwitches" + QS.get_counterS());
+			QS.reset_counter();
+//			if (i==100) {
+//				for(int s = 0; s<= 99;s++) {
+//					System.out.println(element[s].getKey());
+//				}
+//			}
+		}
 	}
 	
 	public enum pivotSucher {
@@ -26,13 +72,13 @@ public class Quicksort {
 
 	Element[] _array;
 	pivotSucher _pivotSucher;
-	private int _counterOperations;
+	private int _counterSwitches;
 	private int _counterCompares;
 
 	public Quicksort(Element[] array, pivotSucher p) {
 		_array = array;
 		_pivotSucher = p;
-		_counterOperations = 0;
+		_counterSwitches = 0;
 		_counterCompares = 0;
 	}
 
@@ -40,10 +86,18 @@ public class Quicksort {
 		return _pivotSucher;
 	}
 
-	public static Element[] fillArray(int size) {
+	public static Element[] fillArraySorted(int size) {
 		Element[] array = new Element[size];
-		for (int i = 0; i <= size; i++) {
-			array[i] = new Element((int) (size * Math.random()));
+		for (int i = 0; i <= size-1; i++) {
+			array[i] = new Element((int) (i));
+		}
+		return array;
+	}
+	
+	public static Element[] fillArrayUnsorted(int size) {
+		Element[] array = new Element[size];
+		for (int i = 0; i <= size-1; i++) {
+			array[i] = new Element((int) (Math.random() * 100));
 		}
 		return array;
 	}
@@ -62,10 +116,13 @@ public class Quicksort {
 			pivot = _array[getPivotElement(ilinks, irechts)].getKey();
 			pivotIdx = getPivotElement(ilinks, irechts);
 			while (true) {
+				_counterCompares ++;
 				while (_array[i].getKey() < pivot)
 					i++;
+					_counterCompares ++;
 				while (_array[j].getKey() >= pivot) {
 					j--;// Vorsicht: Stop-Element einbauen
+					_counterCompares ++;
 					if (j <= ilinks)
 						break;
 				}
@@ -86,7 +143,7 @@ public class Quicksort {
 		Element temp = _array[idx1];
 		_array[idx1] = _array[idx2];
 		_array[idx2] = temp;
-		_counterOperations++;
+		_counterSwitches++;
 	}
 
 	private int getPivotElement(int ilinks, int irechts) {
@@ -143,12 +200,12 @@ public class Quicksort {
 		return _counterCompares;
 	}
 	
-	public int get_counterO() {
-		return _counterOperations;
+	public int get_counterS() {
+		return _counterSwitches;
 	}
 
 	public void reset_counter() {
-		this._counterOperations = 0;
+		this._counterSwitches = 0;
 		this._counterCompares = 0;
 	}
 
