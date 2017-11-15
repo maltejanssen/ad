@@ -107,35 +107,47 @@ public class Quicksort {
 		return _array;
 	}
 
-	private void doQuicksortInterna(int ilinks, int irechts) {
-		int pivot, i, j, pivotIdx;
+	private int doQuicksortInterna(int ilinks, int irechts) {
+		int pivot, i, pivotIdx;
 
 		if (irechts > ilinks) {
-			i = ilinks;
-			j = irechts;
+			
 			pivot = _array[getPivotElement(ilinks, irechts)].getKey();
 			pivotIdx = getPivotElement(ilinks, irechts);
-			while (true) {
-				_counterCompares ++;
-				while (_array[i].getKey() < pivot)
-					i++;
-					_counterCompares ++;
-				while (_array[j].getKey() >= pivot) {
-					j--;// Vorsicht: Stop-Element einbauen
-					_counterCompares ++;
-					if (j <= ilinks)
-						break;
-				}
-				if (i >= j)
-					break;// in der Mitte getroffen
-				exchange(i, j);// vertauschen
-			}
+			
+			exchange(pivotIdx, irechts);
+			pivotIdx = irechts;
+			i = ilinks -1;
+			
+		    for(int j = ilinks; j <= irechts-1; j++)
+		    {
+		        if(_array[j].getKey() <= pivot)
+		        {
+		            i++;
+		            exchange(i,j);
+		        }
+		    }
+//			while (true) {
+//				_counterCompares ++;
+//				while (_array[i].getKey() < pivot)
+//					i++;
+//					_counterCompares ++;
+//				while (_array[j].getKey() >= pivot) {
+//					j--;// Vorsicht: Stop-Element einbauen
+//					_counterCompares ++;
+//					if (j <= ilinks)
+//						break;
+//				}
+//				if (i >= j)
+//					break;// in der Mitte getroffen
+//				exchange(i, j);// vertauschen
+//			}
 
-			if (!(pivotIdx < i))
-				exchange(i, pivotIdx);// Pivotelement in die Mitte tauschen
-
+			exchange(i+1, pivotIdx);// Pivotelement in die Mitte tauschen
+			return i+1;
 			doQuicksortInterna(ilinks, i - 1);
 			doQuicksortInterna(i + 1, irechts);
+			
 		}
 	}
 
