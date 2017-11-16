@@ -1,7 +1,8 @@
 package test;
 
 import impl.*;
-import impl.Quicksort.pivotSucher;
+import impl.pivotSucher;
+
 
 import static org.junit.Assert.*;
 
@@ -14,39 +15,33 @@ public class testeQuicksort {
 	Element[] unsortedArray6 = {new Element(13), new Element(4), new Element(7), new Element(2), new Element(1), new Element(20)};
 	Element[] preSortedArray6 = {new Element(1), new Element(2), new Element(4), new Element(7), new Element(13), new Element(20)};
 
-	Quicksort QS;
 	@Test
 	public void testWithLastElement() {
-		QS = new Quicksort(unsortedArray4, pivotSucher.LAST_ELEMENT);
-		Element[] sortedArray4 = QS.doQuicksort();
-		assertArrayEquals(preSortedArray4, sortedArray4);
+		Quicksort.quicksort(unsortedArray4, pivotSucher.LAST_ELEMENT);
+		assertArrayEquals(preSortedArray4, unsortedArray4);
 		
-		QS = new Quicksort(unsortedArray6, pivotSucher.LAST_ELEMENT);
-		Element[] sortedArray6 = QS.doQuicksort();
-		assertArrayEquals(preSortedArray6, sortedArray6);
+		Quicksort.quicksort(unsortedArray6, pivotSucher.LAST_ELEMENT);
+		assertArrayEquals(preSortedArray6, unsortedArray6);
 		
 	}
 	
 	@Test
 	public void testWithRandom() {
-		QS = new Quicksort(unsortedArray4, pivotSucher.RANDOM);
-		Element[] sortedArray4 = QS.doQuicksort();
-		assertArrayEquals(preSortedArray4, sortedArray4);
+		Quicksort.quicksort(unsortedArray4, pivotSucher.RANDOM);
+		assertArrayEquals(preSortedArray4, unsortedArray4);
 		
-		QS = new Quicksort(unsortedArray6, pivotSucher.RANDOM);
-		Element[] sortedArray6 = QS.doQuicksort();
-		assertArrayEquals(preSortedArray6, sortedArray6);
+		Quicksort.quicksort(unsortedArray6, pivotSucher.RANDOM);
+		assertArrayEquals(preSortedArray6, unsortedArray6);
 	}
 	
 	@Test
 	public void testWithMedian() {
-		QS = new Quicksort(unsortedArray4, pivotSucher.MEDIAN);
-		Element[] sortedArray4 = QS.doQuicksort();
-		assertArrayEquals(preSortedArray4, sortedArray4);
+		Quicksort.quicksort(unsortedArray4, pivotSucher.MEDIAN);
+		assertArrayEquals(preSortedArray4, unsortedArray4);
 		
-		QS = new Quicksort(unsortedArray6, pivotSucher.MEDIAN);
-		Element[] sortedArray6 = QS.doQuicksort();
-		assertArrayEquals(preSortedArray6, sortedArray6);
+		Quicksort.quicksort(unsortedArray6, pivotSucher.MEDIAN);
+		assertArrayEquals(preSortedArray6, unsortedArray6);
+
 	}
 
 }

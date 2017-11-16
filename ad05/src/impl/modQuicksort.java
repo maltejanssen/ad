@@ -3,38 +3,43 @@ package impl;
 import java.util.concurrent.ThreadLocalRandom;
 import impl.pivotSucher;
 
-public class Quicksort {
-	
+public class modQuicksort {
+
 	public static int _counterSwitches;
 	public static int _counterCompares;
 	public static long _time;
-	
-	public static void quicksort(Element[] array, pivotSucher p) {
+
+	public static void modifiedQuicksort(Element[] array, pivotSucher p) {
 		long timeStamp = System.nanoTime();
 		doQuicksort(array, 0, array.length - 1, p);
 		_time = System.nanoTime() - timeStamp;
 	}
 
 	private static void doQuicksort(Element[] array, int idxLeft, int idxRight, pivotSucher p) {
-		if (idxLeft >= idxRight) {
-			return;
-		}
-		if (idxLeft < 0) {
-			return;
-		}
-		if (idxRight > array.length - 1) {
-			return;
-		}
+		if ((idxRight - idxLeft) > 39) {
 
-		int pivotIdx = partition(array, idxLeft, idxRight, p);
-		
-		doQuicksort(array, idxLeft, pivotIdx-1,p);
-		doQuicksort(array, pivotIdx+1, idxRight, p);
+			if (idxLeft >= idxRight) {
+				return;
+			}
+			if (idxLeft < 0) {
+				return;
+			}
+			if (idxRight > array.length - 1) {
+				return;
+			}
+
+			int pivotIdx = partition(array, idxLeft, idxRight, p);
+
+			doQuicksort(array, idxLeft, pivotIdx - 1, p);
+			doQuicksort(array, pivotIdx + 1, idxRight, p);
+		} else {
+			insertionsort(array, idxLeft, idxRight);
+		}
 	}
 
 	public static int partition(Element[] array, int idxLeft, int idxRight, pivotSucher p) {
 
-		int pivotIdx = getPivotElement(array, idxLeft, idxRight,p);
+		int pivotIdx = getPivotElement(array, idxLeft, idxRight, p);
 		int pivot = array[pivotIdx].getKey();
 
 		int l, r;
@@ -44,19 +49,17 @@ public class Quicksort {
 		exchange(array, pivotIdx, idxRight);
 		pivotIdx = idxRight;
 		r--;
-		
-		while(l<=r) {
-			if(array[l].getKey() <pivot) {
+
+		while (l <= r) {
+			if (array[l].getKey() < pivot) {
 				_counterCompares++;
-				l++;	
-			}
-			else {
-				exchange(array,l,r);
+				l++;
+			} else {
+				exchange(array, l, r);
 				r--;
 			}
 		}
-		
-		
+
 		exchange(array, l, pivotIdx);
 		pivotIdx = l;
 		return pivotIdx;
@@ -69,7 +72,7 @@ public class Quicksort {
 		_counterSwitches++;
 	}
 
-	private static int getPivotElement(Element[] array, int ilinks, int irechts,pivotSucher p) {
+	private static int getPivotElement(Element[] array, int ilinks, int irechts, pivotSucher p) {
 
 		switch (p) {
 
@@ -116,6 +119,25 @@ public class Quicksort {
 			return ilinks + (irechts - ilinks) / 2;
 		} else {
 			return ilinks;
+		}
+	}
+
+	private static void insertionsort(Element[] array, int l, int r) {
+		{
+			for (int i = l+1; i < r; ++i) {
+				Element elem = array[i];
+				int j = i - 1;
+
+				/*
+				 * Move elements of arr[0..i-1], that are greater than key, to one position
+				 * ahead of their current position
+				 */
+				while (j >= l && array[j].getKey() > elem.getKey()) {
+					array[j + 1] = array[j];
+					j = j - 1;
+				}
+				array[j + 1] = elem;
+			}
 		}
 	}
 
