@@ -8,7 +8,7 @@ public class modQuicksort {
 	public static int _counterSwitches;
 	public static int _counterCompares;
 	public static long _time;
-
+	
 	public static void modifiedQuicksort(Element[] array, pivotSucher p) {
 		long timeStamp = System.nanoTime();
 		doQuicksort(array, 0, array.length - 1, p);
@@ -123,8 +123,8 @@ public class modQuicksort {
 	}
 
 	private static void insertionsort(Element[] array, int l, int r) {
-		{
-			for (int i = l+1; i < r; ++i) {
+		
+			for (int i = l+1; i <= r; ++i) {
 				Element elem = array[i];
 				int j = i - 1;
 
@@ -138,7 +138,8 @@ public class modQuicksort {
 				}
 				array[j + 1] = elem;
 			}
-		}
+
+		
 	}
 
 	public static void reset() {
