@@ -16,7 +16,7 @@ public class modQuicksort {
 	}
 
 	private static void doQuicksort(Element[] array, int idxLeft, int idxRight, pivotSucher p) {
-		if ((idxRight - idxLeft) > 39) {
+		if ((idxRight - idxLeft) > 10) {
 
 			if (idxLeft >= idxRight) {
 				return;
@@ -133,6 +133,8 @@ public class modQuicksort {
 				 * ahead of their current position
 				 */
 				while (j >= l && array[j].getKey() > elem.getKey()) {
+					_counterSwitches++;
+					_counterCompares++;
 					array[j + 1] = array[j];
 					j = j - 1;
 				}
