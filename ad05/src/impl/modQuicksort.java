@@ -16,7 +16,7 @@ public class modQuicksort {
 	}
 
 	private static void doQuicksort(Element[] array, int idxLeft, int idxRight, pivotSucher p) {
-		if ((idxRight - idxLeft) > 10) {
+		if ((idxRight - idxLeft) > 6) {
 
 			if (idxLeft >= idxRight) {
 				return;
