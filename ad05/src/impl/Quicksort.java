@@ -51,6 +51,7 @@ public class Quicksort {
 				l++;	
 			}
 			else {
+				_counterCompares++;
 				exchange(array,l,r);
 				r--;
 			}
@@ -73,7 +74,7 @@ public class Quicksort {
 
 		switch (p) {
 
-		case LAST_ELEMENT:
+		case LAST:
 			return getPivotLastElement(ilinks, irechts);
 		case MEDIAN:
 			return getPivotMedian(array, ilinks, irechts);

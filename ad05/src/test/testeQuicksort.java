@@ -1,47 +1,45 @@
 package test;
 
 import impl.*;
-import impl.pivotSucher;
-
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class testeQuicksort {
+	
+	Element[] unsortedArray;
 
-	Element[] unsortedArray4 = {new Element(2), new Element(5), new Element(1), new Element(3)};
-	Element[] preSortedArray4 = {new Element(1), new Element(2), new Element(3), new Element(5)};
-	Element[] unsortedArray6 = {new Element(13), new Element(4), new Element(7), new Element(2), new Element(1), new Element(20)};
-	Element[] preSortedArray6 = {new Element(1), new Element(2), new Element(4), new Element(7), new Element(13), new Element(20)};
+	@Before
+	public void setUp() throws Exception {
+		unsortedArray = performanceTest.fillArrayUnsorted(100);
+	}
 
 	@Test
 	public void testWithLastElement() {
-		Quicksort.quicksort(unsortedArray4, pivotSucher.LAST_ELEMENT);
-		assertArrayEquals(preSortedArray4, unsortedArray4);
-		
-		Quicksort.quicksort(unsortedArray6, pivotSucher.LAST_ELEMENT);
-		assertArrayEquals(preSortedArray6, unsortedArray6);
-		
+		Quicksort.quicksort(unsortedArray, pivotSucher.LAST);
+		assertTrue(isSorted(unsortedArray));
 	}
-	
+
 	@Test
 	public void testWithRandom() {
-		Quicksort.quicksort(unsortedArray4, pivotSucher.RANDOM);
-		assertArrayEquals(preSortedArray4, unsortedArray4);
-		
-		Quicksort.quicksort(unsortedArray6, pivotSucher.RANDOM);
-		assertArrayEquals(preSortedArray6, unsortedArray6);
+		Quicksort.quicksort(unsortedArray, pivotSucher.RANDOM);
+		assertTrue(isSorted(unsortedArray));
 	}
-	
+
 	@Test
 	public void testWithMedian() {
-		Quicksort.quicksort(unsortedArray4, pivotSucher.MEDIAN);
-		assertArrayEquals(preSortedArray4, unsortedArray4);
-		
-		Quicksort.quicksort(unsortedArray6, pivotSucher.MEDIAN);
-		assertArrayEquals(preSortedArray6, unsortedArray6);
-
+		Quicksort.quicksort(unsortedArray, pivotSucher.MEDIAN);
+		assertTrue(isSorted(unsortedArray));
 	}
 
+	private boolean isSorted(Element[] array) {
+		for (int i = 0; i < array.length - 1; i++) {
+			if (array[i].getKey() > array[i + 1].getKey()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

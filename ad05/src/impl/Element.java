@@ -32,4 +32,9 @@ public class Element {
 	{
 		return key;
 	}
+	
+	public String toString()
+	{
+		return ""+key;
+	}
 }

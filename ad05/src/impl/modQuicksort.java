@@ -76,7 +76,7 @@ public class modQuicksort {
 
 		switch (p) {
 
-		case LAST_ELEMENT:
+		case LAST:
 			return getPivotLastElement(ilinks, irechts);
 		case MEDIAN:
 			return getPivotMedian(array, ilinks, irechts);
@@ -122,17 +122,13 @@ public class modQuicksort {
 		}
 	}
 
-	private static void insertionsort(Element[] array, int l, int r) {
+	private static void insertionsort(Element[] array, int idxLeft, int idxRight) {
 		
-			for (int i = l+1; i <= r; ++i) {
+			for (int i = idxLeft+1; i <= idxRight; ++i) {
 				Element elem = array[i];
 				int j = i - 1;
 
-				/*
-				 * Move elements of arr[0..i-1], that are greater than key, to one position
-				 * ahead of their current position
-				 */
-				while (j >= l && array[j].getKey() > elem.getKey()) {
+				while (j >= idxLeft && array[j].getKey() > elem.getKey()) {
 					_counterSwitches++;
 					_counterCompares++;
 					array[j + 1] = array[j];
