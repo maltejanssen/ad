@@ -3,7 +3,7 @@ package impl;
 public class Container<T extends Comparable<T>> {
 
 	// dataobject
-	private T data;
+	private T element;
 	
 	// fields for the linked implementation 
 	private Container<T> parentNode;
@@ -16,17 +16,22 @@ public class Container<T extends Comparable<T>> {
 	private int rightdChildIdx;
 	
 	
-	public Container(T data){
-		this.data = data;
+	public Container(T element){
+		this.element = element;
 	}
+
 	
-	public Container(T data, Container<T> parentNode) {
-		this.data = data;
+	public Container(T element, Container<T> parentNode) {
+		this.element = element;
 		this.parentNode = parentNode;
 	}
 	
-	public Container(T data, int parentIdx) {
-		this.data = data;
+	public T retrieve(Pos<T> p) {
+		return p.container.getElement();
+	}
+	
+	public Container(T element, int parentIdx) {
+		this.element = element;
 		this.parentIdx = parentIdx;
 	}
 
@@ -54,8 +59,8 @@ public class Container<T extends Comparable<T>> {
 		this.rightChildNode = rightChild;
 	}
 
-	public T getData() {
-		return data;
+	public T getElement() {
+		return element;
 	}
 
 	/**

@@ -11,6 +11,9 @@ import java.util.List;
  *
  */
 public abstract class Tree <T extends Comparable<T>> {
+	
+	
+	Pos<T> root;
 
 	/**
 	 * Inserts element T into the tree at the right position according to is value
@@ -18,7 +21,7 @@ public abstract class Tree <T extends Comparable<T>> {
 	 * @param element -> Element to add into the tree. Can't be null. 
 	 * @return True if item was added; false if element already in tree
 	 */
-	public abstract boolean add (T element);
+	public abstract boolean add (T element); //hier implementieren
 	
 	/**
 	 * Returns the left child of the parent node (smaller)
@@ -26,15 +29,18 @@ public abstract class Tree <T extends Comparable<T>> {
 	 * @param parent -> the parent node to get the child of
 	 * @return Left child element; or null if no left child element existent
 	 */
-	public abstract T getLeftChild(T parent);
+	protected abstract T getLeftChild(T parent);
+	protected abstract Pos<T> getLeftChild(Pos parent);
 	
+	protected abstract T retrieve(Pos<T> p);
 	/**
 	 * Returns the right child of the parent node (bigger)
 	 * 
 	 * @param parent -> the parent node to get the child of
 	 * @return Right child element; or null if no right child element existent
 	 */
-	public abstract T getRightChild(T parent);
+	protected abstract T getRightChild(T parent);
+	protected abstract Pos<T> getRightChild(Pos<T> parent);
 	
 	/**
 	 * Returns the root element of the tree
@@ -60,6 +66,8 @@ public abstract class Tree <T extends Comparable<T>> {
 		return node;
 	}
 	
+	
+	//auf Pos umstellen
 	public void prinInOrder() {
 		List<T> l = inOrderRec(getRoot());
 		for (T elem: l) {
