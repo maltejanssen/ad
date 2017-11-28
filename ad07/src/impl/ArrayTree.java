@@ -1,6 +1,6 @@
 package impl;
 
-public class ArrayTree extends Tree {
+public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 
 	private Container[] arrayTree;
 	
@@ -9,25 +9,25 @@ public class ArrayTree extends Tree {
 	}
 	
 	@Override
-	public boolean add(Comparable element) {
+	public boolean add(T element) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Comparable getLeftChild(Comparable parent) {
+	public T getLeftChild(T parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Comparable getRightChild(Comparable parent) {
+	public T getRightChild(T parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Comparable getRoot() {
+	public T getRoot() {
 		// TODO Auto-generated method stub
 		return null;
 	}

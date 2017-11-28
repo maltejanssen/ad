@@ -12,8 +12,8 @@ public class Container<T extends Comparable<T>> {
 	
 	// fields for the array implementation
 	private int parentIdx;
-	private int firstChildIdx;
-	private int secondChildIdx;
+	private int leftChildIdx;
+	private int rightdChildIdx;
 	
 	
 	public Container(T data){
@@ -38,20 +38,20 @@ public class Container<T extends Comparable<T>> {
 		this.parentNode = parent;
 	}
 
-	public Container<T> getFirstChildNode() {
-		return firstChildNode;
+	public Container<T> getLeftChildNode() {
+		return leftChildNode;
 	}
 
-	public void setFirstChildNode(Container<T> firstChild) {
-		this.firstChildNode = firstChild;
+	public void setleftChildNode(Container<T> leftChild) {
+		this.leftChildNode = leftChild;
 	}
 
-	public Container<T> getSecondChildNode() {
+	public Container<T> getRightChildNode() {
 		return rightChildNode;
 	}
 
-	public void setSecondChildNode(Container<T> secondChild) {
-		this.rightChildNode = secondChild;
+	public void setRightChildNode(Container<T> rightChild) {
+		this.rightChildNode = rightChild;
 	}
 
 	public T getData() {
@@ -76,27 +76,27 @@ public class Container<T extends Comparable<T>> {
 	 * @return the secondChildIdx
 	 */
 	public int getSecondChildIdx() {
-		return secondChildIdx;
+		return rightdChildIdx;
 	}
 
 	/**
 	 * @param secondChildIdx the secondChildIdx to set
 	 */
-	public void setSecondChildIdx(int secondChildIdx) {
-		this.secondChildIdx = secondChildIdx;
+	public void setRightChildIdx(int rightChildIdx) {
+		this.rightdChildIdx = rightChildIdx;
 	}
 
 	/**
 	 * @return the firstChildIdx
 	 */
-	public int getFirstChildIdx() {
-		return firstChildIdx;
+	public int getLeftChildIdx() {
+		return leftChildIdx;
 	}
 
 	/**
 	 * @param firstChildIdx the firstChildIdx to set
 	 */
-	public void setFirstChildIdx(int firstChildIdx) {
-		this.firstChildIdx = firstChildIdx;
+	public void setLeftChildIdx(int leftChildIdx) {
+		this.leftChildIdx = leftChildIdx;
 	}
 }
