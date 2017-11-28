@@ -2,10 +2,11 @@ package impl;
 
 public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 
-	private Container[] arrayTree;
+	private T[] arrayTree;
 	
+	@SuppressWarnings("unchecked")
 	public ArrayTree() {
-		arrayTree = new Container[15];
+		arrayTree = (T[]) new Object[10];
 	}
 	
 	@Override

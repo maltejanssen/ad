@@ -7,7 +7,7 @@ import impl.pivotSucher;
 public class performanceTest {
 
 	public static void main(String[] args) {
-		aufwand();
+		aufwandMod();
 
 	}
 
