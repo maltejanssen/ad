@@ -7,8 +7,8 @@ public class Container<T extends Comparable<T>> {
 	
 	// fields for the linked implementation 
 	private Container<T> parentNode;
-	private Container<T> firstChildNode;
-	private Container<T> secondChildNode;
+	private Container<T> leftChildNode;
+	private Container<T> rightChildNode;
 	
 	// fields for the array implementation
 	private int parentIdx;
@@ -47,11 +47,11 @@ public class Container<T extends Comparable<T>> {
 	}
 
 	public Container<T> getSecondChildNode() {
-		return secondChildNode;
+		return rightChildNode;
 	}
 
 	public void setSecondChildNode(Container<T> secondChild) {
-		this.secondChildNode = secondChild;
+		this.rightChildNode = secondChild;
 	}
 
 	public T getData() {
