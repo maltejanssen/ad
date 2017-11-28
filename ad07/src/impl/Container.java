@@ -1,14 +1,14 @@
 package impl;
 
-public class Container {
+public class Container<T extends Comparable<T>> {
 
 	// dataobject
-	private Object data;
+	private T data;
 	
 	// fields for the linked implementation 
-	private Container parentNode;
-	private Container firstChildNode;
-	private Container secondChildNode;
+	private Container<T> parentNode;
+	private Container<T> firstChildNode;
+	private Container<T> secondChildNode;
 	
 	// fields for the array implementation
 	private int parentIdx;
@@ -16,45 +16,45 @@ public class Container {
 	private int secondChildIdx;
 	
 	
-	public Container(Object data){
+	public Container(T data){
 		this.data = data;
 	}
 	
-	public Container(Object data, Container parentNode) {
+	public Container(T data, Container<T> parentNode) {
 		this.data = data;
 		this.parentNode = parentNode;
 	}
 	
-	public Container(Object data, int parentIdx) {
+	public Container(T data, int parentIdx) {
 		this.data = data;
 		this.parentIdx = parentIdx;
 	}
 
-	public Container getParentNode() {
+	public Container<T> getParentNode() {
 		return parentNode;
 	}
 
-	public void setParentNode(Container parent) {
+	public void setParentNode(Container<T> parent) {
 		this.parentNode = parent;
 	}
 
-	public Container getFirstChildNode() {
+	public Container<T> getFirstChildNode() {
 		return firstChildNode;
 	}
 
-	public void setFirstChildNode(Container firstChild) {
+	public void setFirstChildNode(Container<T> firstChild) {
 		this.firstChildNode = firstChild;
 	}
 
-	public Container getSecondChildNode() {
+	public Container<T> getSecondChildNode() {
 		return secondChildNode;
 	}
 
-	public void setSecondChildNode(Container secondChild) {
+	public void setSecondChildNode(Container<T> secondChild) {
 		this.secondChildNode = secondChild;
 	}
 
-	public Object getData() {
+	public T getData() {
 		return data;
 	}
 
