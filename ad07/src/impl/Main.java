@@ -3,14 +3,14 @@ package impl;
 public class Main {
 
 	public static void main(String[] args) {
-		NodeTree<Integer> nodetree = new NodeTree<Integer>();
-		nodetree.add(10);
-		nodetree.add(5);
-		nodetree.add(3);
-		nodetree.add(12);
+		ArrayTree<Integer> arraytree = new ArrayTree<Integer>();
+		arraytree.add(10);
+		arraytree.add(15);
+		arraytree.add(9);
+		arraytree.add(6);
+		arraytree.add(8);
 		
-		nodetree.prinInOrder();
-
-	}
+		arraytree.prinInOrder();
+	}	
 
 }
