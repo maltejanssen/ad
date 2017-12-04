@@ -11,5 +11,5 @@ public class Pos<T extends Comparable<T>> {
 		idx = 0;
 		isValid = false;
 	}
-	
+
 }

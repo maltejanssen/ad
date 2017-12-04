@@ -9,28 +9,23 @@ public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 		arrayTree = (T[]) new Object[10];
 	}
 	
-	@Override
-	public boolean add(T element) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
-	public T getLeftChild(T parent) {
+	public Pos<T> getLeftChild(Pos<T> parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public T getRightChild(T parent) {
+	public Pos<T> getRightChild(Pos<T> parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 	@Override
-	public T getRoot() {
+	protected T retrieve(Pos<T> p) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
