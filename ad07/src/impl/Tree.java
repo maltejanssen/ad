@@ -48,16 +48,16 @@ public abstract class Tree <T extends Comparable<T>> {
 	 * 
 	 * @return elements searched for; if not existent null
 	 */
-	public T find(T comparator){
-		T node = getRoot();
-		while(node != null){
-			if(node.compareTo(comparator) > 0)
-				node = getLeftChild(node);
-			else if(node.compareTo(comparator) < 0)
-				node = getRightChild(node);
-			else break;
+	public boolean find(T comparator){
+		T element = getRoot();
+		while(element != null){
+			if(element.compareTo(comparator) > 0)
+				element = getLeftChild(element);
+			else if(element.compareTo(comparator) < 0)
+				element = getRightChild(element);
+			else return true;
 		}
-		return node;
+		return false;
 	}
 	
 	public void prinInOrder() {

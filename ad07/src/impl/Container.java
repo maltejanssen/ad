@@ -42,7 +42,7 @@ public class Container<T extends Comparable<T>> {
 		return leftChildNode;
 	}
 
-	public void setleftChildNode(Container<T> leftChild) {
+	public void setLeftChildNode(Container<T> leftChild) {
 		this.leftChildNode = leftChild;
 	}
 
