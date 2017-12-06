@@ -1,27 +1,23 @@
 package impl;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 public class Adjazenzmatrix extends Graph {
 
+	Set<Node> nodes;
 	int[][] matrix;
 
-	public Adjazenzmatrix(Set<Node> vertices, Set<Edge> edges) {
-		super(vertices, edges);
+	public Adjazenzmatrix(Set<Node> nodes, Set<Edge> edges) {
+		this.matrix = new int[nodes.size()][nodes.size()];
+		this.nodes = nodes;
 
-		this.matrix = new int[vertices.size()][vertices.size()];
-//
-//		computeMatrix();
+		for (Edge e : edges) {
+			setEdge(e);
+		}
 	}
-
-//	private void computeMatrix() {
-//		for (Edge e : edges) {
-//			matrix[e.getFirstVertice().ID][e.getSecondVertice().ID] = e.getCost();
-//		}
-//	}
 
 	@Override
 	public Pos add(Node node) {
@@ -31,11 +27,11 @@ public class Adjazenzmatrix extends Graph {
 
 	@Override
 	public boolean setEdge(Edge edge) {
-		if(matrix[edge.getFirstNode().ID][edge.getSecondNode().ID] == 0)
-		{
-			
+		if (matrix[edge.getFirstNode().ID][edge.getSecondNode().ID] == 0) {
+			matrix[edge.getFirstNode().ID][edge.getSecondNode().ID] = edge.getWeight();
+			return true;
 		}
-			return false;
+		return false;
 	}
 
 	@Override
@@ -45,16 +41,31 @@ public class Adjazenzmatrix extends Graph {
 	}
 
 	@Override
-	public List<Node> getNeighbours(Node node) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Node> getNeighbours(Node givenNode) {
+		List<Node> neighbours = new LinkedList<Node>();
+		for (Node n: nodes)
+		{
+			if(doesEdgeExist(givenNode, n)) {
+				neighbours.add(n);
+			}
+		}
+		return neighbours;
 	}
 
 	@Override
 	public Set<Node> getNodes() {
-		// TODO Auto-generated method stub
-		return null;
+		return nodes;
 	}
-	
 
+	@Override
+	public Iterator<Node> iterator() {
+		return nodes.iterator();
+	}
+
+	private boolean doesEdgeExist(Node start, Node target) {
+		if (matrix[start.ID][target.ID] != 0)
+			return true;
+		else
+			return false;
+	}
 }
