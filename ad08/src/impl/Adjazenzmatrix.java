@@ -66,6 +66,13 @@ public class Adjazenzmatrix extends Graph {
 	@Override
 	public List<Node> getNeighbours(Node givenNode) {
 		List<Node> neighbours = new LinkedList<Node>();
+		
+		for (Node n : this.getNodes())
+		{
+			if(doesEdgeExist(givenNode, n))
+				neighbours.add(n);
+		}
+		
 		return neighbours;
 	}
 
