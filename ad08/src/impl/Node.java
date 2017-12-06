@@ -1,20 +1,14 @@
 package impl;
 
-public class Vertice<T> {
+public class Node {
 	
 	public final int ID;
-	private T value;
 	
 	private static int nextID = 0;
 	
-	public Vertice(T value) {
+	public Node() {
 		this.ID = nextID;
 		nextID++;
-		this.value = value;
-	}
-	
-	public T getValue() {
-		return value;
 	}
 	
 	@Override
@@ -22,9 +16,9 @@ public class Vertice<T> {
 		if(this == o) return true;
 		if(o == null) return false;
 		
-		if(o instanceof Vertice<?>) {
-			Vertice<T> v = (Vertice<T>) o;
-			return this.value.equals(v.getValue());
+		if(o instanceof Node) {
+			Node v = (Node) o;
+			return this.ID == v.ID;
 		} else {
 			return false;
 		}

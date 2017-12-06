@@ -1,35 +1,40 @@
 package impl;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
-public abstract class Graph<T> implements Iterable<Vertice<T>> {
+public abstract class Graph implements Iterable<Node> {
 	
-	protected Set<Vertice<T>> vertices = null;
-	protected Set<Edge<T>> edges = null;
+	Set<Node> nodes;
 	
-	/**
-	 * creates a grph with given Vertices and Edges
-	 * @param vertices
-	 * @param edges
-	 */
-	public Graph(Set<Edge<T>> edges) {
-		//TODO insert Edges
+	public Graph(Set<Node> nodes, Set<Edge> edges) {
+		for (Node n : nodes) {
+			if(nodes.add(n))
+			{
+				this.add(n);
+			}
+		}
+		
+		for (Edge e : edges) {
+			this.setEdge(e);
+		}
+		
+		
 	}
 	
-	public Pos insert(Edge<T> edge) {
-		edges.add(edge);
-		return new Pos()
-	}
+	public abstract Pos add(Node node);
+	
+	public abstract boolean setEdge(Edge edge);
 
-	/**
-	 * traversals the graph from given vertice to the target and calculates the cost
-	 * @return the minimal cost
-	 */
-	public abstract int traversal(Vertice<T> start, Vertice<T> target);
+	public abstract int getWeight(Node start, Node target);
+	
+	public abstract List<Node> getNeighbours(Node node);
+	
+	public abstract Set<Node> getNodes();
 	
 	@Override
-	public Iterator<Vertice<T>> iterator() {
-		return vertices.iterator();
+	public Iterator<Node> iterator() {
+		return nodes.iterator();
 	}
 	
 }

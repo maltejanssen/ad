@@ -1,22 +1,22 @@
 package impl;
 
-public class Edge<T> {
+public class Edge {
 	
-	private Vertice<T> firstVertice;
-	private Vertice<T> secondVertice;
+	private Node firstVertice;
+	private Node secondVertice;
 	private int weight;
 
-	public Edge(Vertice<T> firstVertice, Vertice<T> secondVertice, int cost) {
+	public Edge(Node firstVertice, Node secondVertice, int weight) {
 		this.firstVertice = firstVertice;
 		this.secondVertice = secondVertice;
-		this.weight = cost;
+		this.weight = weight;
 	}
 	
-	public Vertice<T> getFirstVertice() {
+	public Node getFirstVertice() {
 		return firstVertice;
 	}
 	
-	public Vertice<T> getSecondVertice() {
+	public Node getSecondVertice() {
 		return secondVertice;
 	}
 	

@@ -12,11 +12,11 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		Set<Vertice> v = new HashSet<Vertice>();
-		Vertice v1 = new Vertice(0);
-		Vertice v2 = new Vertice(1);
-		Vertice v3 = new Vertice(2);
-		Vertice v4 = new Vertice(3);
+		Set<Node> v = new HashSet<Node>();
+		Node v1 = new Node();
+		Node v2 = new Node();
+		Node v3 = new Node();
+		Node v4 = new Node();
 		v.add(v1);
 		v.add(v2);
 		v.add(v3);
@@ -29,7 +29,7 @@ public class Main {
 		g = new Adjazenzmatrix(v, e);
 		
 		
-		for (Vertice f : g)
+		for (Node f : g)
 		{
 			System.out.println(f.ID);
 		}
