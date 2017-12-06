@@ -1,11 +1,7 @@
 package impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 
 public class Adjazenzlists extends Graph {
 
@@ -32,7 +28,7 @@ public class Adjazenzlists extends Graph {
 			List<Edge> edgeList = new ArrayList<Edge>();
 			nodes.put(node, nodeList);
 			edges.put(node, edgeList);
-			
+			return new Pos(node);
 		}
 		return null;
 		
@@ -53,34 +49,51 @@ public class Adjazenzlists extends Graph {
 		return false;
 	}
 
+	
 	@Override
 	public boolean setEdge(Edge edge) {
-		// TODO Auto-generated method stub
+		//if node in nodes _> node is also in edges
+		if (!nodes.containsKey(edge.getFirstNode())) {
+			add(edge.getFirstNode());
+		}
+		if (!nodes.containsKey(edge.getSecondNode())) {
+			add(edge.getSecondNode());
+		}
+		if(!doesEdgeExists(edge.getFirstNode(), edge.getSecondNode())) {
+			nodes.get(edge.getFirstNode()).add(edge.getSecondNode());
+			edges.get(edge.getFirstNode()).add(edge);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public int getWeight(Node start, Node target) {
-		// TODO Auto-generated method stub
+		if(start.equals(target)) {
+			return 0;
+		}
+		List<Edge> list = edges.get(start);
+		for(Edge e : list) {
+			if (e.getSecondNode() == target){
+				return e.getWeight();
+			}
+		}
 		return 0;
 	}
 
 	@Override
 	public List<Node> getNeighbours(Node node) {
-		// TODO Auto-generated method stub
-		return null;
+		return nodes.get(node);
 	}
 
 	@Override
 	public Set<Node> getNodes() {
-		// TODO Auto-generated method stub
-		return null;
+		return nodes.keySet();
 	}
 
 	@Override
 	public Iterator<Node> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Node> nodeSet = getNodes();
+		return nodeSet.iterator();
 	}
-
 }
