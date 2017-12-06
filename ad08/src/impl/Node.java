@@ -13,8 +13,11 @@ public class Node {
 	
 	@Override
 	public boolean equals(Object o) {
-		if(this == o) return true;
-		if(o == null) return false;
+		if(this == o) 
+			return true;
+		
+		if(o == null) 
+			return false;
 		
 		if(o instanceof Node) {
 			Node v = (Node) o;

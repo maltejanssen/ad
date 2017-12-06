@@ -1,5 +1,6 @@
 package impl;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,12 +8,17 @@ import java.util.Set;
 
 public class Adjazenzmatrix extends Graph {
 
-	Set<Node> nodes;
-	int[][] matrix;
+	private HashMap<Node, Integer> nodes;
+	private int[][] matrix;
+	private int size = 0;
 
 	public Adjazenzmatrix(Set<Node> nodes, Set<Edge> edges) {
 		this.matrix = new int[nodes.size()][nodes.size()];
-		this.nodes = nodes;
+
+		for (Node n : nodes) {
+			this.nodes.put(n, size);
+			size++;
+		}
 
 		for (Edge e : edges) {
 			setEdge(e);
@@ -21,49 +27,59 @@ public class Adjazenzmatrix extends Graph {
 
 	@Override
 	public Pos add(Node node) {
-		// TODO Auto-generated method stub
-		return null;
+		Pos pos = new Pos(node);
+		if(!nodes.containsKey(node))
+		{
+			nodes.put(node, size);
+			size++;
+		}
+		return pos;
 	}
 
 	@Override
 	public boolean setEdge(Edge edge) {
-		if (matrix[edge.getFirstNode().ID][edge.getSecondNode().ID] == 0) {
-			matrix[edge.getFirstNode().ID][edge.getSecondNode().ID] = edge.getWeight();
-			return true;
+		Node start = edge.getFirstNode();
+		Node target = edge.getSecondNode();
+
+		if (!nodes.containsKey(start)) {
+			add(start);
 		}
-		return false;
+
+		if (!nodes.containsKey(target)) {
+			add(target);
+		}
+
+		if (!doesEdgeExist(start, target)) {
+			matrix[nodes.get(start)][nodes.get(target)] = edge.getWeight();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public int getWeight(Node start, Node target) {
-		// TODO Auto-generated method stub
-		return 0;
+		return matrix[nodes.get(start)][nodes.get(target)];
 	}
 
 	@Override
 	public List<Node> getNeighbours(Node givenNode) {
 		List<Node> neighbours = new LinkedList<Node>();
-		for (Node n: nodes)
-		{
-			if(doesEdgeExist(givenNode, n)) {
-				neighbours.add(n);
-			}
-		}
 		return neighbours;
 	}
 
 	@Override
 	public Set<Node> getNodes() {
-		return nodes;
+		return nodes.keySet();
 	}
 
 	@Override
 	public Iterator<Node> iterator() {
-		return nodes.iterator();
+		return nodes.keySet().iterator();
 	}
 
 	private boolean doesEdgeExist(Node start, Node target) {
-		if (matrix[start.ID][target.ID] != 0)
+		if (matrix[nodes.get(start)][nodes.get(target)] != 0)
 			return true;
 		else
 			return false;

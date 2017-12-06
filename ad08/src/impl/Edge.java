@@ -9,6 +9,9 @@ public class Edge {
 	public Edge(Node firstVertice, Node secondVertice, int weight) {
 		this.firstVertice = firstVertice;
 		this.secondVertice = secondVertice;
+		
+		if(weight <= 0)
+			throw new IllegalArgumentException("the weight must be a positive value");
 		this.weight = weight;
 	}
 	
