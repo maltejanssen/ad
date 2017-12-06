@@ -2,14 +2,14 @@ package impl;
 
 public class Pos {
 	
-	private Node vertice;
+	private Node node;
 
-	public Pos(Node v) {
-		vertice = v;
+	public Pos(Node n) {
+		node = n;
 	}
 
-	public Node getVertice() {
-		return vertice;
+	public Node getNode() {
+		return node;
 	}
 	
 }
