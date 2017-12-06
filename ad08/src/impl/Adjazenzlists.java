@@ -7,17 +7,25 @@ import java.util.Set;
 
 public class Adjazenzlists extends Graph {
 
-	// Map<Node<T>,List<Node<T>>> nodes = new HashMap<Node<T>,List<Node<T>>>();
-	// Map<Node<T>,List<Edge<T>>> edges = new HashMap<Node<T>,List<Edge<T>>>();
-	//
+	Map<Node,List<Node>> nodes = new HashMap<Node,List<Node>>();
+	Map<Node,List<Edge>> edges = new HashMap<Node,List<Edge>>();
+	
 	public Adjazenzlists(Set<Node> vertices, Set<Edge> edges) {
 		super(vertices, edges);
 	}
 
 	@Override
 	public Pos add(Node node) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private boolean edgeExists(Node origin, Node destination) {
+		if (origin.equals(destination)) {
+			return true;
+		}
+		
+		List<Edge> list = edges.get(origin);
+		return false;
 	}
 
 	@Override
