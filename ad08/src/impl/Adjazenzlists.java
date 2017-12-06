@@ -5,15 +5,15 @@ import java.util.*;
 
 public class Adjazenzlists extends Graph {
 
-	Map<Node,List<Node>> nodes = new HashMap<Node,List<Node>>();
-	Map<Node,List<Edge>> edges = new HashMap<Node,List<Edge>>();
+	Map<Node,List<Node>> nodes; 
+	Map<Node,List<Edge>> edges; 
 	
 	public Adjazenzlists(Set<Node> nodes, Set<Edge> edges) {
+		this.nodes = new HashMap<Node,List<Node>>();
+		this.edges = new HashMap<Node,List<Edge>>();		
+		
 		for (Node n : nodes) {
-			if(nodes.add(n))
-			{
-				this.add(n);
-			}
+			this.add(n);
 		}
 		for (Edge e : edges) {
 			this.setEdge(e);
@@ -49,7 +49,6 @@ public class Adjazenzlists extends Graph {
 		return false;
 	}
 
-	
 	@Override
 	public boolean setEdge(Edge edge) {
 		//if node in nodes _> node is also in edges
