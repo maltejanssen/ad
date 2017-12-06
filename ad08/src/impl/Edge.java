@@ -12,11 +12,11 @@ public class Edge {
 		this.weight = weight;
 	}
 	
-	public Node getFirstVertice() {
+	public Node getFirstNode() {
 		return firstVertice;
 	}
 	
-	public Node getSecondVertice() {
+	public Node getSecondNode() {
 		return secondVertice;
 	}
 	
