@@ -60,7 +60,7 @@ public abstract class Tree <T extends Comparable<T>> {
 		return false;
 	}
 	
-	public void prinInOrder() {
+	public void printInOrder() {
 		List<T> l = inOrderRec(getRoot());
 		for (T elem: l) {
 			System.out.println(elem);

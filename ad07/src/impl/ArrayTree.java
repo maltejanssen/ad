@@ -21,9 +21,7 @@ public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 			throw new IllegalArgumentException("item must not be null");
 		}
 		int idx = findInsertionIdx(element);
-		if (idx >= array.length) {
-			enlargeArray();
-		}
+		
 		if (idx == 0) {
 			return false;
 		}	
@@ -64,8 +62,13 @@ public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 			return 0;
 		}
 		else {
-			return 2*parentIdx;
+			int newIdx = 2*parentIdx;
+			if (newIdx >= array.length) {
+				enlargeArray();
+			}
+			return newIdx;
 		}
+		
 	}
 
 	private int getRightChildIdx(int parentIdx) {
@@ -73,7 +76,11 @@ public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 			return 0;
 		}
 		else {
-			return 2*parentIdx+1;
+			int newIdx = 2*parentIdx+1;
+			if (newIdx >= array.length) {
+				enlargeArray();
+			}
+			return newIdx;
 		}
 	}
 	
@@ -85,7 +92,7 @@ public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 //		array = (T[]) tmpArray;
 		Comparable<T>[] tmpArray = new Comparable[length*2];
 		System.arraycopy(array, 0, tmpArray, 0, array.length);
-//		array = (T[]) tmpArray;
+		array = tmpArray;
 	}
 
 	@Override
@@ -94,7 +101,7 @@ public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 			throw new IllegalArgumentException("parent must not be null");
 		}
 		int idx = getLeftChildIdx(getIndexOf(parent));
-		System.out.println(idx);
+		//System.out.println(idx);
 		if (idx > 0) {
 			return (T) array[idx];
 		}
@@ -109,7 +116,7 @@ public class ArrayTree<T extends Comparable<T>> extends Tree<T> {
 			throw new IllegalArgumentException("parent must not be null");
 		}
 		int idx = getRightChildIdx(getIndexOf(parent));
-		System.out.println(idx);
+		//System.out.println(idx);
 		if (idx > 0) {
 			return (T) array[idx];
 		}
