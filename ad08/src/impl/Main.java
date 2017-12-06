@@ -26,7 +26,7 @@ public class Main {
 		e.add(new Edge(v1,v2, 2));
 		e.add(new Edge(v2,v3, 4));
 		e.add(new Edge(v3,v1, 2));
-		g = new Adjazenzmatrix(v, e);
+		g = new Adjazenzlists(v, e);
 		
 		
 		for (Node f : g)

@@ -14,7 +14,8 @@ public class Adjazenzmatrix extends Graph {
 
 	public Adjazenzmatrix(Set<Node> nodes, Set<Edge> edges) {
 		this.matrix = new int[nodes.size()][nodes.size()];
-
+		this.nodes = new HashMap<Node, Integer>();
+		
 		for (Node n : nodes) {
 			this.nodes.put(n, size);
 			size++;
