@@ -12,9 +12,13 @@ public abstract class Graph<T> implements Iterable<Vertice<T>> {
 	 * @param vertices
 	 * @param edges
 	 */
-	public Graph(Set<Vertice<T>> vertices, Set<Edge<T>> edges) {
-		this.vertices = vertices;
-		this.edges = edges;
+	public Graph(Set<Edge<T>> edges) {
+		//TODO insert Edges
+	}
+	
+	public Pos insert(Edge<T> edge) {
+		edges.add(edge);
+		return new Pos()
 	}
 
 	/**
