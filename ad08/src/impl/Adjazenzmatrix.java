@@ -31,8 +31,11 @@ public class Adjazenzmatrix extends Graph {
 
 	@Override
 	public boolean setEdge(Edge edge) {
-		// TODO Auto-generated method stub
-		return false;
+		if(matrix[edge.getFirstNode().ID][edge.getSecondNode().ID] == 0)
+		{
+			
+		}
+			return false;
 	}
 
 	@Override
