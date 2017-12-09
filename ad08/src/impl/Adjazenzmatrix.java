@@ -38,8 +38,21 @@ public class Adjazenzmatrix extends Graph {
 		{
 			nodes.put(node, size);
 			size++;
+			enlargeArray();
 		}
 		return pos;
+	}
+
+	private void enlargeArray() {
+		int[][] enlargedMatrix = new int[size][size];
+		
+		for (int i = 0; i < size-1; i++) {
+			int[] enlargedMatrix2d = new int[size];
+			System.arraycopy(matrix[i], 0, enlargedMatrix2d, 0, size-1);
+			enlargedMatrix[i] = enlargedMatrix2d;
+		}
+		matrix = enlargedMatrix;
+		
 	}
 
 	@Override
