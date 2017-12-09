@@ -1,10 +1,14 @@
 package impl;
 
-public class Node {
+public class Node implements Comparable<Node> {
 	
 	public final int ID;
 	
 	private static int nextID = 0;
+	
+	public int distance;
+	public boolean seen;
+	public Node prev;
 	
 	public Node() {
 		this.ID = nextID;
@@ -31,5 +35,10 @@ public class Node {
 	@Override
 	public int hashCode(){
 		return ID;
+	}
+
+	@Override
+	public int compareTo(Node other) {
+		return distance - other.distance;
 	}
 }

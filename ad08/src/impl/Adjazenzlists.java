@@ -89,10 +89,17 @@ public class Adjazenzlists extends Graph {
 	public Set<Node> getNodes() {
 		return nodes.keySet();
 	}
+	
+	@Override
+	public List<Edge> getEdges(Node n) {
+		return edges.get(n);
+	}
 
 	@Override
 	public Iterator<Node> iterator() {
 		Set<Node> nodeSet = getNodes();
 		return nodeSet.iterator();
 	}
+
+
 }

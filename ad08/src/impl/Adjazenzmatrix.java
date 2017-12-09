@@ -92,4 +92,10 @@ public class Adjazenzmatrix extends Graph {
 		else
 			return false;
 	}
+
+	@Override
+	public List<Edge> getEdges(Node n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

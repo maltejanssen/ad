@@ -14,4 +14,7 @@ public abstract class Graph implements Iterable<Node> {
 	
 	public abstract Set<Node> getNodes();
 
+	public abstract List<Edge> getEdges(Node n);
+
+
 }
