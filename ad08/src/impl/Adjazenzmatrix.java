@@ -12,6 +12,11 @@ public class Adjazenzmatrix extends Graph {
 	private int[][] matrix;
 	private int size = 0;
 
+	public Adjazenzmatrix() {
+		this.matrix = new int[2][2];
+		this.nodes = new HashMap<Node, Integer>();
+	}
+	
 	public Adjazenzmatrix(Set<Node> nodes, Set<Edge> edges) {
 		this.matrix = new int[nodes.size()][nodes.size()];
 		this.nodes = new HashMap<Node, Integer>();
@@ -93,9 +98,4 @@ public class Adjazenzmatrix extends Graph {
 			return false;
 	}
 
-	@Override
-	public List<Edge> getEdges(Node n) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

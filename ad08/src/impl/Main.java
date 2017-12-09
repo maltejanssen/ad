@@ -2,7 +2,6 @@ package impl;
 
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Main {
@@ -27,13 +26,13 @@ public class Main {
 		v.add(v5);
 		
 		Set<Edge> e = new HashSet<Edge>();
-		e.add(new Edge(v1,v2, 5));
-		e.add(new Edge(v2,v5, 1));
-		e.add(new Edge(v5,v3, 1));
-		e.add(new Edge(v1,v4, 3));
-		e.add(new Edge(v4,v3, 10));
-		g = new Adjazenzlists(v, e);
-		int result = Dijkstra.dijkstra(g, v1, v3);
+		e.add(new Edge(v1,v3, 2));
+		e.add(new Edge(v4,v3, 3));
+		e.add(new Edge(v1,v4, 4));
+		e.add(new Edge(v1,v2, 1));
+		e.add(new Edge(v5,v2, 7));
+		g = new Adjazenzmatrix(v, e);
+		int result = Dijkstra.dijkstra(g, v1, v5);
 		System.out.println(result);
 		
 //		for (Node f : g)

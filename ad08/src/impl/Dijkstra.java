@@ -20,18 +20,27 @@ public class Dijkstra {
 			if (n.seen) continue;
 			n.seen = true;
 			
-			for (Edge e : g.getEdges(n)) {
-				Node d = e.getSecondNode();
-				int w = e.getWeight();
+			for (Node d : g.getNeighbours(n)) {
+				int w = g.getWeight(n, d);
 				if (d.distance > n.distance +w) {
 					d.distance = n.distance +w;
 					d.prev = n;
 					p.add(d);
 				}
 			}
+			
+//			for (Edge e : g.getEdges(n)) {
+//				Node d = e.getSecondNode();
+//				int w = e.getWeight();
+//				if (d.distance > n.distance +w) {
+//					d.distance = n.distance +w;
+//					d.prev = n;
+//					p.add(d);
+//				}
+//			}
 		}
-		if (destination.distance == 0) {
-			return -1;
+		if (destination.distance == Integer.MAX_VALUE) {
+			throw new IllegalArgumentException("Nodes are not conntected!");
 		}
 		return destination.distance;
 	}

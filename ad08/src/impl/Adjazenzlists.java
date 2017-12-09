@@ -8,6 +8,11 @@ public class Adjazenzlists extends Graph {
 	Map<Node,List<Node>> nodes; 
 	Map<Node,List<Edge>> edges; 
 	
+	public Adjazenzlists() {
+		this.nodes = new HashMap<Node,List<Node>>();
+		this.edges = new HashMap<Node,List<Edge>>();
+	}
+	
 	public Adjazenzlists(Set<Node> nodes, Set<Edge> edges) {
 		this.nodes = new HashMap<Node,List<Node>>();
 		this.edges = new HashMap<Node,List<Edge>>();		
@@ -88,11 +93,6 @@ public class Adjazenzlists extends Graph {
 	@Override
 	public Set<Node> getNodes() {
 		return nodes.keySet();
-	}
-	
-	@Override
-	public List<Edge> getEdges(Node n) {
-		return edges.get(n);
 	}
 
 	@Override
