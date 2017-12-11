@@ -16,25 +16,18 @@ public class testDijkstra extends AbstractBenchmark {
 
 	final int SIZE = 10000;
 	
-	Graph listsGraph;
-	Graph matrixGraph;
+	Graph[] graphs = GraphBuilder.buildGraphs(SIZE);
+	Graph listsGraph = graphs[0];
+	Graph matrixGraph = graphs[1];
 
-	
-	@Before
-	public void setUp() throws Exception {
-		Graph[] graphs = GraphBuilder.buildGraphs(SIZE);
-		listsGraph = graphs[0];
-		matrixGraph = graphs[1];
-	}
-
-	@BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 10)
+	@BenchmarkOptions(benchmarkRounds = 10, warmupRounds = 2)
 	@Test
 	public void benchDijkstraWithListsGraph() throws Exception{
 		int result = Dijkstra.dijkstra(listsGraph, GraphBuilder.startNode, GraphBuilder.destinationNode);
 		assertEquals(SIZE-1, result);
 	}
 	
-	@BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 10)
+	@BenchmarkOptions(benchmarkRounds = 10, warmupRounds = 2)
 	@Test
 	public void benchDijkstraWithMatrixGraph() throws Exception{
 		int result = Dijkstra.dijkstra(matrixGraph, GraphBuilder.startNode, GraphBuilder.destinationNode);
