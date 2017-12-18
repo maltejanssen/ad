@@ -10,10 +10,10 @@ public class RSA {
 	private BigInteger nebenmodul; //
 	private int bitlen = 128;
 
-	/** Create an instance that can encrypt using someone elses public key. */
-	public RSA(BigInteger newhauptmodul, BigInteger newe) {
-		hauptmodul = newhauptmodul;
-	}
+//	/** Create an instance that can encrypt using someone elses public key. */
+//	public RSA(BigInteger newhauptmodul, BigInteger newe) {
+//		hauptmodul = newhauptmodul;
+//	}
 
 	/** Create an instance that can both encrypt and decrypt. */
 	public RSA(int bits) {
@@ -44,7 +44,7 @@ public class RSA {
 //	  public static void main(String[] args) {
 //	    RSA rsa = new RSA(1024);
 //
-//	    String text1 = "Yellow and Black Border Collies";
+//	    String text1 = "xxx";
 //	    System.out.println("Plaintext: " + text1);
 //	    
 //	    String ciphertext = rsa.encrypt(text1);
