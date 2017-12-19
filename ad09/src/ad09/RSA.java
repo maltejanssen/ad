@@ -5,17 +5,11 @@ import java.util.Random;
 
 public class RSA {
 
-	private BigInteger d, e;
+	private BigInteger privateK, publicK;//d,e
 	private BigInteger hauptmodul; // n
-	private BigInteger nebenmodul; //
+	private BigInteger nebenmodul; 
 	private int bitlen = 128;
 
-//	/** Create an instance that can encrypt using someone elses public key. */
-//	public RSA(BigInteger newhauptmodul, BigInteger newe) {
-//		hauptmodul = newhauptmodul;
-//	}
-
-	/** Create an instance that can both encrypt and decrypt. */
 	public RSA(int bits) {
 		bitlen = bits;
 		Random r = new Random();
@@ -23,35 +17,45 @@ public class RSA {
 		BigInteger q = new BigInteger(bitlen / 2, 100, r);
 		hauptmodul = p.multiply(q);
 		nebenmodul = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE));
-		e = new BigInteger("3");
-		while (nebenmodul.gcd(e).intValue() > 1) {
-			e = e.add(new BigInteger("2"));
+		publicK = new BigInteger("3");
+		while (nebenmodul.gcd(publicK).intValue() > 1) {
+			publicK = publicK.add(new BigInteger("2"));
 		}
-		d = e.modInverse(nebenmodul);
+		privateK = publicK.modInverse(nebenmodul);
 	}
 
-	/** Encrypt the given plaintext message. */
+	//Instance that can encrypt using someone elses public key
+	public RSA(BigInteger otherHauptmodul, BigInteger otherpublicKey) {
+		publicK = otherpublicKey;
+		hauptmodul = otherHauptmodul;
+	}
+
 	public synchronized String encrypt(String message) {
-		return (new BigInteger(message.getBytes())).modPow(e, hauptmodul).toString();
+		return (new BigInteger(message.getBytes())).modPow(publicK, hauptmodul).toString();
 	}
 
-	/** Decrypt the given ciphertext message. */
 	public synchronized String decrypt(String message) {
-		return new String((new BigInteger(message)).modPow(d, hauptmodul).toByteArray());
+		return new String((new BigInteger(message)).modPow(privateK, hauptmodul).toByteArray());
 	}
 	
-	/** Trivial test program. */
-	  public static void main(String[] args) {
+	public BigInteger getPublicKey() {
+		return publicK;
+	}
+	
+	public BigInteger getHauptmodul() {
+		return hauptmodul;
+	}
+	
+	public static void main(String[] args) {
 	    RSA rsa = new RSA(128);
-
-	    String text1 = "Dennis du lappen";
+	
+	    String text1 = "x";
 	    System.out.println("Plaintext: " + text1);
 	    
 	    String ciphertext = rsa.encrypt(text1);
 	    System.out.println("Ciphertext: " + ciphertext);
 	    String plaintext = rsa.decrypt(ciphertext);
 	    System.out.println("plaintext:"+  plaintext);
-
-	  }
+  }
 
 }
