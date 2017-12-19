@@ -40,18 +40,18 @@ public class RSA {
 		return new String((new BigInteger(message)).modPow(d, hauptmodul).toByteArray());
 	}
 	
-//	/** Trivial test program. */
-//	  public static void main(String[] args) {
-//	    RSA rsa = new RSA(1024);
-//
-//	    String text1 = "xxx";
-//	    System.out.println("Plaintext: " + text1);
-//	    
-//	    String ciphertext = rsa.encrypt(text1);
-//	    System.out.println("Ciphertext: " + ciphertext);
-//	    String plaintext = rsa.decrypt(ciphertext);
-//	    System.out.println("plaintext:"+  plaintext);
-//
-//	  }
+	/** Trivial test program. */
+	  public static void main(String[] args) {
+	    RSA rsa = new RSA(128);
+
+	    String text1 = "Dennis du lappen";
+	    System.out.println("Plaintext: " + text1);
+	    
+	    String ciphertext = rsa.encrypt(text1);
+	    System.out.println("Ciphertext: " + ciphertext);
+	    String plaintext = rsa.decrypt(ciphertext);
+	    System.out.println("plaintext:"+  plaintext);
+
+	  }
 
 }

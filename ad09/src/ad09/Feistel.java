@@ -1,82 +1,121 @@
 package ad09;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
 public class Feistel {
-	
-	int blocksize = 16;
 
-	public Feistel(String string) {
-		//Convert String Array in Byte Array
-		byte[] text = string.getBytes();
-		
-		//Include Offset for key
-		byte[] textKey = new byte[text.length+blocksize/2];
-		System.arraycopy(text, 0, textKey, blocksize/2, text.length);
-		
-		//Generate random key
+	public final int BLOCKSIZE;
+	public final int OFFSET;
+	public final int NUMBER_OF_CYCLES;
+	final byte PADDING_VALUE = 0x20;
+
+	private Feistelblock[] blocks;
+	private byte[] sessionKey;
+
+	/**
+	 * 
+	 * @param string:
+	 *            message
+	 */
+	public Feistel(int blocksize, int numberOfCycles) {
+
+		BLOCKSIZE = blocksize;
+		OFFSET = blocksize;
+		NUMBER_OF_CYCLES = numberOfCycles;
+
+	}
+
+	public String encode(String message) {
+		byte[] preCipherArray = initFeistel(message);
+
+		blocks = new Feistelblock[(preCipherArray.length - OFFSET) / BLOCKSIZE];
+
+		createFistelblocks(preCipherArray);
+
+		for (int i = 0; i < blocks.length; i++) {
+			blocks[i].cycle(sessionKey, 12);
+		}
+
+		byte[] afterCipherArray = sessionKey;
+		byte[] paddingForKey = new byte[BLOCKSIZE / 2];
+		afterCipherArray = concat(afterCipherArray, paddingForKey);
+
+		for (int i = 0; i < blocks.length; i++) {
+			afterCipherArray = concat(afterCipherArray, blocks[i].getLeft());
+			afterCipherArray = concat(afterCipherArray, blocks[i].getRight());
+		}
+
+		String cipherString;
+		try {
+			cipherString = new String(afterCipherArray, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return cipherString;
+	}
+
+	public byte[] concat(byte[] a, byte[] b) {
+		int aLen = a.length;
+		int bLen = b.length;
+		byte[] c = new byte[aLen + bLen];
+		System.arraycopy(a, 0, c, 0, aLen);
+		System.arraycopy(b, 0, c, aLen, bLen);
+		return c;
+	}
+
+	private void createFistelblocks(byte[] cipherArray) {
+		for (int i = OFFSET, j = 0; i < cipherArray.length; i += BLOCKSIZE, j++) {
+			byte[] left = new byte[BLOCKSIZE / 2];
+			byte[] right = new byte[BLOCKSIZE / 2];
+
+			System.arraycopy(cipherArray, i, left, 0, BLOCKSIZE / 2);
+			System.arraycopy(cipherArray, i + left.length, right, 0, BLOCKSIZE / 2);
+			blocks[j] = new Feistelblock(right, left, BLOCKSIZE);
+		}
+	}
+
+	private byte[] initFeistel(String message) {
+		// Convert String in Byte Array
+		byte[] messageByteArray = message.getBytes();
+
+		// calculate padding
+		int padding = 0;
+		if (messageByteArray.length % BLOCKSIZE != 0) {
+			padding = BLOCKSIZE - (messageByteArray.length % BLOCKSIZE);
+		}
+
+		// Include Offset for key and padding
+		byte[] cipherArray = new byte[messageByteArray.length + OFFSET + padding];
+		System.arraycopy(messageByteArray, 0, cipherArray, OFFSET, messageByteArray.length);
+
+		// If necessary, padded with PADDING_VALUE
+		if (padding != 0) {
+			for (int i = messageByteArray.length + OFFSET; i < cipherArray.length; i++)
+				cipherArray[i] = PADDING_VALUE;
+		}
+
+		// Generate random key
 		Random random = new Random();
-		byte[] key = new byte[blocksize/2];
-		random.nextBytes(key);
-		
-		//Include key
-		System.arraycopy(key, 0, textKey, blocksize, textKey.length - blocksize/2);
-		
-		//Divide in left and right side
-		byte[] R = new byte [text.length/2];
-		byte[] L = new byte [text.length/2];	
-		System.arraycopy(text, 0, R, 0, text.length/2);
-		System.arraycopy(text, text.length/2, L, 0, text.length/2);
-		
-		BigInteger r = new BigInteger(R); 
-		BigInteger k = new BigInteger(key);	
-		
-		BigInteger function = (r.pow(2).add(k)).mod(new BigInteger("2").pow(64).subtract(new BigInteger("1")));
-		
-		byte[] functionArray = BigInt2Byte(function,blocksize/2);
-		byte[] xor = xor_func(L, functionArray);
-		
-//		Base64.getEncoder().encodeToString(key);
-//		Base64.getDecoder().decode(s)
-//		//Include RSA key
-//		System.arraycopy(key, 0, textKey, blocksize, textKey.length - blocksize/2);
-		
-		
-		
+		sessionKey = new byte[BLOCKSIZE / 2];
+		random.nextBytes(sessionKey);
+
+		// Include key
+		System.arraycopy(sessionKey, 0, cipherArray, 0, sessionKey.length);
+		return cipherArray;
 	}
-	
-	private byte[] xor_func(byte[] a, byte[] b) {
-	     byte[] out = new byte[a.length];
-	     for (int i = 0; i < a.length; i++) {
-	          out[i] = (byte) (a[i] ^ b[i]);
-	     }
-	     return out;
-	}
-	
-	static byte[] BigInt2Byte (BigInteger src, int bytesize){ 
-		byte[] out = new byte[bytesize];
-		BigInteger mod = new BigInteger("2"); 
-		mod = mod.pow(bytesize*8);
-		src = src.mod(mod);
-		int startdst = bytesize - src.toByteArray().length ;
-		int cpylength = src.toByteArray().length;
-		
-		if((src.bitLength() % 8) != 0){ 
-			System.arraycopy(src.toByteArray(),0,out,startdst,cpylength);
-		}
-		else {
-			System.arraycopy(src.toByteArray(),1,out,startdst+1,cpylength-1);
-		}
-		return out; 
-	}
-	
+
 	public static void main(String[] args) {
-		Feistel f = new Feistel("1");
+		Feistel F = new Feistel(16, 12);
+		String message = "abcdefghijklmnopqrstuvwxyz";
+		System.out.println("Input: " + message);
+		String cipherString = F.encode(message);
+		System.out.println("Encoded: " + cipherString);
 
 	}
-	
-	
 
 }
