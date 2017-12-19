@@ -26,20 +26,20 @@ public class Feistelblock {
 
 		for (int i = 0; i < cycleRepetition; i++) {
 
-			// 1: swaps the blockparts
-			swap();
 
 			// 2: generate a new blockpart F(R,K)
 			byte[] F = F(key);
 
 			// 3: bitwise XOR(L,F) generates new R
 			XOR(F);
+			// 1: swaps the blockparts
+			swap();
 
 		}
 
 	}
 
-	private void swap() {
+	public void swap() {
 		byte[] temp = right;
 		right = left;
 		left = temp;
@@ -49,6 +49,7 @@ public class Feistelblock {
 		//generates the BigInterger to represent each byte array
 		BigInteger R = new BigInteger(1, right);
 		BigInteger K = new BigInteger(1, key);
+		//System.out.println(K.toString(radix));
 
 		BigInteger bigIntF = (R.pow(2).add(K)).mod(new BigInteger("2").pow(64).subtract(new BigInteger("1")));
 		return BigInt2Byte(bigIntF, BLOCKSIZE / 2);
@@ -63,7 +64,7 @@ public class Feistelblock {
 		}
 
 		// saves the new blockpart R
-		right = newR;
+		left = newR;
 	}
 
 	public byte[] getRight() {

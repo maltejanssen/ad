@@ -31,32 +31,77 @@ public class Feistel {
 
 	public String encode(String message) {
 		byte[] preCipherArray = initFeistel(message);
-
-		blocks = new Feistelblock[(preCipherArray.length - OFFSET) / BLOCKSIZE];
-
-		createFistelblocks(preCipherArray);
-
+		
+		createFeistelblocks(preCipherArray);
+		generateSessionKey();
 		for (int i = 0; i < blocks.length; i++) {
-			blocks[i].cycle(sessionKey, 12);
+			blocks[i].cycle(sessionKey, NUMBER_OF_CYCLES);
 		}
-
+		
+		//include the sessionkey (blocksize/2) and the ´padding bytes for the key
 		byte[] afterCipherArray = sessionKey;
 		byte[] paddingForKey = new byte[BLOCKSIZE / 2];
 		afterCipherArray = concat(afterCipherArray, paddingForKey);
 
+		//concat the results from the feistelblocks
 		for (int i = 0; i < blocks.length; i++) {
 			afterCipherArray = concat(afterCipherArray, blocks[i].getLeft());
 			afterCipherArray = concat(afterCipherArray, blocks[i].getRight());
 		}
 
-		String cipherString;
-		try {
-			cipherString = new String(afterCipherArray, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
-		}
+		
+		//pack in a string
+		String cipherString = packInAString(afterCipherArray);
+		
 		return cipherString;
+	}
+	
+	public String decode(String message) {
+		byte[] cipherText = initFeistel(message);
+		
+		// extract key
+		byte[] key = new byte[BLOCKSIZE/2];
+		System.arraycopy(cipherText, 0, key, 0, BLOCKSIZE / 2);
+		
+		// generate array without key
+		byte[] cipherTextWithoutKey = new byte[cipherText.length-OFFSET];
+		System.arraycopy(cipherText, OFFSET, cipherTextWithoutKey, 0, cipherText.length-OFFSET);
+		
+		//generate feistelblocks
+		createFeistelblocks(cipherTextWithoutKey);
+		
+		//
+		
+		for (int i = 0; i < blocks.length; i++) {
+			blocks[i].swap();
+			blocks[i].cycle(key, NUMBER_OF_CYCLES);
+			blocks[i].swap();
+		}
+		
+		byte[] decodedArray = {};
+		//concat the results from the feistelblocks
+		for (int i = 0; i < blocks.length; i++) {
+			decodedArray = concat(decodedArray, blocks[i].getLeft());
+			decodedArray = concat(decodedArray, blocks[i].getRight());
+		}
+		
+		String decodedString = packInAString(decodedArray);
+		
+		
+		
+		return decodedString;
+	}
+
+	private String packInAString(byte[] decodedArray) {
+		//pack in a string
+		String decodedString;
+//		try {
+			decodedString = new String(decodedArray/*, "UTF-8"*/);
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+		return decodedString;
 	}
 
 	public byte[] concat(byte[] a, byte[] b) {
@@ -68,8 +113,11 @@ public class Feistel {
 		return c;
 	}
 
-	private void createFistelblocks(byte[] cipherArray) {
-		for (int i = OFFSET, j = 0; i < cipherArray.length; i += BLOCKSIZE, j++) {
+	private void createFeistelblocks(byte[] cipherArray) {
+		
+		blocks = new Feistelblock[(cipherArray.length) / BLOCKSIZE];
+		
+		for (int i = 0, j = 0; i < cipherArray.length; i += BLOCKSIZE, j++) {
 			byte[] left = new byte[BLOCKSIZE / 2];
 			byte[] right = new byte[BLOCKSIZE / 2];
 
@@ -81,7 +129,13 @@ public class Feistel {
 
 	private byte[] initFeistel(String message) {
 		// Convert String in Byte Array
-		byte[] messageByteArray = message.getBytes();
+		byte[] messageByteArray;
+//		try { 
+			messageByteArray= message.getBytes(/*"UTF-8"*/);
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
 
 		// calculate padding
 		int padding = 0;
@@ -89,33 +143,41 @@ public class Feistel {
 			padding = BLOCKSIZE - (messageByteArray.length % BLOCKSIZE);
 		}
 
-		// Include Offset for key and padding
-		byte[] cipherArray = new byte[messageByteArray.length + OFFSET + padding];
-		System.arraycopy(messageByteArray, 0, cipherArray, OFFSET, messageByteArray.length);
+		// Include padding
+		byte[] cipherArray = new byte[messageByteArray.length + padding];
+		System.arraycopy(messageByteArray, 0, cipherArray, 0, messageByteArray.length);
 
 		// If necessary, padded with PADDING_VALUE
 		if (padding != 0) {
-			for (int i = messageByteArray.length + OFFSET; i < cipherArray.length; i++)
+			for (int i = messageByteArray.length; i < cipherArray.length; i++)
 				cipherArray[i] = PADDING_VALUE;
 		}
 
+		
+		return cipherArray;
+	}
+
+	private void generateSessionKey() {
 		// Generate random key
 		Random random = new Random();
 		sessionKey = new byte[BLOCKSIZE / 2];
 		random.nextBytes(sessionKey);
-
-		// Include key
-		System.arraycopy(sessionKey, 0, cipherArray, 0, sessionKey.length);
-		return cipherArray;
 	}
+	
+	
 
-	public static void main(String[] args) {
-		Feistel F = new Feistel(16, 12);
-		String message = "abcdefghijklmnopqrstuvwxyz";
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		Feistel F = new Feistel(16, 18);
+		
+		String rawMessage = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+		String message = new String(rawMessage.getBytes()/*, "UTF-8"*/);
 		System.out.println("Input: " + message);
+		
 		String cipherString = F.encode(message);
 		System.out.println("Encoded: " + cipherString);
-
+		
+		String decodedMessage = F.decode(cipherString);
+		System.out.println("Decoded: " + decodedMessage);
 	}
 
 }
