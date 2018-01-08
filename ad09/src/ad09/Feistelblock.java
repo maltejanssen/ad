@@ -52,7 +52,7 @@ public class Feistelblock {
 		//System.out.println(K.toString(radix));
 
 		BigInteger bigIntF = (R.pow(2).add(K)).mod(new BigInteger("2").pow(64).subtract(new BigInteger("1")));
-		return BigInt2Byte(bigIntF, BLOCKSIZE / 2);
+		return Feistel.BigInt2Byte(bigIntF, BLOCKSIZE / 2);
 	}
 
 	private void XOR(byte[] F) {
@@ -75,27 +75,5 @@ public class Feistelblock {
 		return left;
 	}
 
-	/**
-	 * Solution ref.: RSA Verschlüsselung: Ronald Rivest, Adi Shamir, Leonard
-	 * Adleman
-	 * 
-	 * @param src
-	 * @param bytesize
-	 * @return
-	 */
-	static byte[] BigInt2Byte(BigInteger src, int bytesize) {
-		byte[] out = new byte[bytesize];
-		BigInteger mod = new BigInteger("2");
-		mod = mod.pow(bytesize * 8);
-		src = src.mod(mod);
-		int startdst = bytesize - src.toByteArray().length;
-		int cpylength = src.toByteArray().length;
-
-		if ((src.bitLength() % 8) != 0) {
-			System.arraycopy(src.toByteArray(), 0, out, startdst, cpylength);
-		} else {
-			System.arraycopy(src.toByteArray(), 1, out, startdst + 1, cpylength - 1);
-		}
-		return out;
-	}
+	
 }

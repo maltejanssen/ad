@@ -26,14 +26,24 @@ public class Feistel {
 		BLOCKSIZE = blocksize;
 		OFFSET = blocksize;
 		NUMBER_OF_CYCLES = numberOfCycles;
-
+		generateSessionKey();
+	}
+	
+	public BigInteger getSessionKey() {
+		return new BigInteger(sessionKey);
+	}
+	
+	public void setSessionKey(BigInteger key) {
+		sessionKey = BigInt2Byte(key, BLOCKSIZE / 2);
 	}
 
-	public String encode(String message) {
+	public byte[] encode(String message) {
 		byte[] preCipherArray = initFeistel(message);
 		
 		createFeistelblocks(preCipherArray);
-		generateSessionKey();
+		
+		
+		
 		for (int i = 0; i < blocks.length; i++) {
 			blocks[i].cycle(sessionKey, NUMBER_OF_CYCLES);
 		}
@@ -51,13 +61,12 @@ public class Feistel {
 
 		
 		//pack in a string
-		String cipherString = packInAString(afterCipherArray);
+		//String cipherString = packInAString(afterCipherArray);
 		
-		return cipherString;
+		return afterCipherArray;
 	}
 	
-	public String decode(String message) {
-		byte[] cipherText = initFeistel(message);
+	public String decode(byte[] cipherText) {
 		
 		// extract key
 		byte[] key = new byte[BLOCKSIZE/2];
@@ -91,8 +100,8 @@ public class Feistel {
 		
 		return decodedString;
 	}
-
-	private String packInAString(byte[] decodedArray) {
+	
+	private static String packInAString(byte[] decodedArray) {
 		//pack in a string
 		String decodedString;
 //		try {
@@ -159,25 +168,58 @@ public class Feistel {
 
 	private void generateSessionKey() {
 		// Generate random key
-		Random random = new Random();
 		sessionKey = new byte[BLOCKSIZE / 2];
-		random.nextBytes(sessionKey);
+		
+		for (int i = 0; i < sessionKey.length; i++)
+		{
+			sessionKey[i] = ((byte)randomInt(0,255));
+		}
 	}
 	
 	
 
+	private int randomInt(int i, int j) {
+		Random random = new Random();
+
+		return random.nextInt(j-i+1)+i;
+	}
+
 	public static void main(String[] args) throws UnsupportedEncodingException {
-		Feistel F = new Feistel(16, 18);
+		Feistel F = new Feistel(16,10);
 		
-		String rawMessage = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+		String rawMessage = "Fisch";
 		String message = new String(rawMessage.getBytes()/*, "UTF-8"*/);
 		System.out.println("Input: " + message);
 		
-		String cipherString = F.encode(message);
+		byte[] afterCipherArray = F.encode(message);
+		String cipherString = packInAString(afterCipherArray);
 		System.out.println("Encoded: " + cipherString);
 		
-		String decodedMessage = F.decode(cipherString);
+		String decodedMessage = F.decode(afterCipherArray);
 		System.out.println("Decoded: " + decodedMessage);
 	}
 
+	/**
+	 * Solution ref.: RSA Verschlüsselung: Ronald Rivest, Adi Shamir, Leonard
+	 * Adleman
+	 * 
+	 * @param src
+	 * @param bytesize
+	 * @return
+	 */
+	static byte[] BigInt2Byte(BigInteger src, int bytesize) {
+		byte[] out = new byte[bytesize];
+		BigInteger mod = new BigInteger("2");
+		mod = mod.pow(bytesize * 8);
+		src = src.mod(mod);
+		int startdst = bytesize - src.toByteArray().length;
+		int cpylength = src.toByteArray().length;
+
+		if ((src.bitLength() % 8) != 0) {
+			System.arraycopy(src.toByteArray(), 0, out, startdst, cpylength);
+		} else {
+			System.arraycopy(src.toByteArray(), 1, out, startdst + 1, cpylength - 1);
+		}
+		return out;
+	}
 }
